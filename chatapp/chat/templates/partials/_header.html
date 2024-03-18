@@ -28,11 +28,14 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
+            <a class="button is-primary" href="{% url 'register' %}">
               <strong>Sign up</strong>
             </a>
             <a class="button is-light" href="{% url 'login' %}">
               Log in
+            </a>
+            <a class="button is-danger" href="{% url 'logout' %}">
+              Log out
             </a>
           </div>
         </div>
