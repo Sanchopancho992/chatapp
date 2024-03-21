@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, FormView
 from .models import Room, Message
 from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from .forms import LoginForm
+from .forms import LoginForm, SignupForm, RoomForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .serializers import RoomSerializer, MessageSerializer
@@ -68,6 +68,7 @@ class LoginView(FormView):
 class RoomView(TemplateView):
   template_name = 'room.html'
   
+  
   def get_context_data(self, **kwargs: Any):
     context = super().get_context_data(**kwargs)
     room_name = self.kwargs['pk']
@@ -83,6 +84,45 @@ class LogoutView(TemplateView):
     return redirect('home')
   
   
-class RegisterView(TemplateView):
+class RegisterView(FormView):
   template_name = 'register.html'
+  form_class = SignupForm
+  success_url = '/chat/'
   
+  def form_valid(self, form):
+    user = form.save()
+    login(self.request, user)
+    return super().form_valid(form)
+
+  
+  def form_invalid(self, form: Any):
+    messages.error(self.request, 'Invalid username or password')
+    return super().form_invalid(form)
+
+
+class CreateRoomView(FormView):
+  template_name = 'create_room.html'
+  form_class = RoomForm
+  success_url = reverse_lazy('home')
+  
+  def form_valid(self, form):
+    room = form.save(commit=False)
+    room.host = self.request.user
+    room.save()
+    return super().form_valid(form)
+  
+# class RoomShowView(TemplateView):
+#   template_name = 'room.html'
+  
+#   def get_context_data(self, **kwargs: Any):
+#     context = super().get_context_data(**kwargs)
+#     room_name = self.kwargs['pk']
+#     room = Room.objects.get(name=room_name)
+#     messages = Message.objects.filter(room=room)
+#     context['room'] = room
+#     context['messages'] = messages
+#     return context
+  
+
+  
+

@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+  <div>
+    <form method="POST" action="{% url 'create-room' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create a new conversation room</button>
+
+    </form>
+  </div>
+  
+</body>
+</html>
+
+
+{% endblock content %}
+

@@ -7,4 +7,6 @@ urlpatterns = [
   path('logout/', views.LogoutView.as_view(), name='logout'),
   path('register/', views.RegisterView.as_view(), name='register'),
   path('room/<str:pk>/', views.RoomView.as_view(), name='room'),
+  path('create-room/', views.CreateRoomView.as_view(), name='create-room'),
+  
 ]

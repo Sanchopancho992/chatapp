@@ -14,10 +14,16 @@
   <article class="message">
     <div class="message-header">
       <p>Message</p>
-      <button class="delete" aria-label="delete"></button>
+      <p><a href="{% url 'create-room' %}">Add conversation</a></p>
     </div>
     <div class="message-body">
-      <!-- {{ message}} -->
+      <ul>
+        {% for room in rooms %}
+          <li>
+            <a href="{% url 'room' room.id %}">{{ room.name }} -- {{room.description}}</a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
   </article>
 </body>
